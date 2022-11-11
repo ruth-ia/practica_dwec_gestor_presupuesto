@@ -16,7 +16,35 @@ function actualizarPresupuesto(valor) {
 }
 
 function mostrarPresupuesto() {
-    // TODO
+    return "Tu presupuesto actual es de" + presupuesto + "€";
+}
+
+class gasto {
+
+    CrearGasto(valor) {
+        if (valor > 0) {
+            this.valor = valor;
+        }
+        else {
+            this.valor = 0;
+        }
+        this.descripcion = "";
+        return this;
+    }
+
+    mostrarGasto () {
+        print("Gasto correspondiente a " + this.descripcion + " con valor "+ this.valor+ "€")
+    }
+
+    actualizarValor (valor) {
+        if (valor > 0) {
+            this.valor = valor;
+        }
+    }
+
+    actualizarDescripcion (descripcion) {
+        this.descripcion = descripcion;
+    }
 }
 
 function CrearGasto() {
