@@ -10,23 +10,18 @@ function actualizarPresupuesto(valor) {
         return presupuesto;
     }
     else{
-        alert("El valor introducido es incorrecto");
+        print("El valor introducido es incorrecto");
         return -1;
     }
 }
 
 function mostrarPresupuesto() {
-    return "Tu presupuesto actual es de" + presupuesto + "€";
-}
-
-function CrearGasto(valor, descripcion) {
-    let g = new gasto(valor,descripcion);
-    return g;
+    return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
 class gasto {
 
-    constructor(valor,descripcion) {
+    CrearGasto(descripcion,valor) {
         if (valor > 0) {
             this.valor = valor;
         }
@@ -34,10 +29,11 @@ class gasto {
             this.valor = 0;
         }
         this.descripcion = descripcion;
+        return this;
     }
 
     mostrarGasto () {
-        print("Gasto correspondiente a " + this.descripcion + " con valor "+ this.valor+ "€")
+        print("Gasto correspondiente a " + this.descripcion + " con valor "+ this.valor+ " €")
     }
 
     actualizarValor (valor) {
