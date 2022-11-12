@@ -4,7 +4,7 @@
 let presupuesto = 0;
 
 function actualizarPresupuesto(valor) {
-    if (valor > 0)
+    if (typeof(valor)=='number' && valor > 0)
     {
         presupuesto = valor;
         return presupuesto;
@@ -19,9 +19,13 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
+function CrearGasto(descripcion,valor) {
+    return new gasto(descripcion,valor);
+}
+
 class gasto {
 
-    CrearGasto(descripcion,valor) {
+    constructor(descripcion,valor) {
         if (valor > 0) {
             this.valor = valor;
         }
