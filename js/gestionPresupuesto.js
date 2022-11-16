@@ -10,7 +10,7 @@ function actualizarPresupuesto(valor) {
         return presupuesto;
     }
     else{
-        print("El valor introducido es incorrecto");
+        console.error("El valor introducido es incorrecto");
         return -1;
     }
 }
@@ -37,7 +37,7 @@ class gasto {
     }
 
     mostrarGasto () {
-        print("Gasto correspondiente a " + this.descripcion + " con valor "+ this.valor+ " €")
+        return "Gasto correspondiente a " + this.descripcion + " con valor "+ this.valor+ " €";
     }
 
     actualizarValor (valor) {
