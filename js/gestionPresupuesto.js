@@ -25,7 +25,7 @@ function mostrarPresupuesto() {
 
 class CrearGasto {
 
-    constructor(descripcion,valor) {
+    constructor(descripcion,valor,fecha) {
         if (valor > 0) {
             this.valor = valor;
         }
@@ -33,7 +33,11 @@ class CrearGasto {
             this.valor = 0;
         }
         this.descripcion = descripcion;
-        return this;
+        this.fecha = Date.now();
+        this.actualizarFecha(fecha)
+        this.etiquetas = [];
+        this.anyadirEtiquetas(arguments.slice(3))
+        
     }
 
     mostrarGasto () {
@@ -49,10 +53,45 @@ class CrearGasto {
     actualizarDescripcion (descripcion) {
         this.descripcion = descripcion;
     }
+
+    mostrarGastoCompleto () {
+        var etiquetas = ""
+        this.etiquetas.forEach(element => {
+            etiquetas = etiquetas + "\n- " + element;
+        });
+        return "Gasto correspondiente a " + this.descripcion + " con valor " +this.valor + " €\n" +
+        "Fecha: " + this.fecha.toLocaleString()+ "\nEtiquetas:" + etiquetas;
+    }
+
+    actualizarFecha (fecha) {
+        if(Date.parse(fecha) != NaN)
+            this.fecha = Date.parse(fecha);
+    }
+
+    anyadirEtiquetas () {
+        for (var i = 0; i<arguments.length; i++)
+        {
+            if (!this.etiquetas.includes(arguments[i]))
+                this.etiquetas.push(arguments[i])
+        }
+    }
+
+    borrarEtiquetas () {
+        for (var i = 0; i<arguments.length; i++)
+        {
+            var idx = this.etiquetas.indexOf(arguments[i]);
+            if (idx > -1) { 
+                array.splice(idx, 1);
+            }
+        }
+    }
+
 }
 
 //JS II 
-function listarGastos() {}
+function listarGastos() {
+    return gastos;
+}
 
 function anyadirGasto() {}
 
