@@ -19,11 +19,7 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " + presupuesto + " €";
 }
 
-function CrearGasto(descripcion,valor) {
-    return new gasto(descripcion,valor);
-}
-
-class gasto {
+class CrearGasto {
 
     constructor(descripcion,valor) {
         if (valor > 0) {
