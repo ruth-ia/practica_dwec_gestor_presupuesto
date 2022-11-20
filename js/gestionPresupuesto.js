@@ -157,7 +157,21 @@ function filtrarGastos(filtro) {
 }
 
 function agruparGastos(periodo='mes',...rest) {
+    let filtro = {}
+    if (rest>0)
+       filtro.etiquetasTiene = rest[0];
+    if (rest>1)
+        filtro.fechaDesde = rest[1];
+    if (rest>2)
+        filtro.fechaHasta = rest[2];
+    let gastosFiltrados = filtrarGastos(filtro);
+    let gastosOrdenados = gastosFiltrados.reduce(function(acc, item) {
+        p = item.obtenerPeriodoAgrupacion(periodo)
+        acc[p] = acc[p] + item.valor;
+    });
+    return gastosOrdenados;
 }
+
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -169,7 +183,6 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
     calcularBalance,
     filtrarGastos,
     agruparGastos
