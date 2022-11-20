@@ -135,6 +135,29 @@ function calcularBalance() {
     return presupuesto - calcularTotalGastos();
 }
 
+// JS III
+function buscarEtiquetas (etiqueta, gasto) {
+    const etiquetasMin = gasto.etiquetas.map(e => {
+        return e.toLowerCase;
+    })
+    etiqueta.forEach(e => {
+        if (etiquetasMin.includes(e.toLowerCase()))
+            return true;
+    })
+    return false;
+}
+
+function filtrarGastos(filtro) {
+    return gastos.filter(g => filtro.fechaDesde == null || g.fecha >= Date.parse(filtro.fechaDesde))
+                 .filter(g => filtro.fechaHasta == null || g.fecha <= Date.parse(filtro.fechaDesde))
+                 .filter(g => filtro.valorMinimo == null || g.valor > filtro.valorMinimo)
+                 .filter(g => filtro.valorMaximo == null || g.valor < filtro.valorMaximo)
+                 .filter(g => filtro.descripcionContiene == null || g.descripcion.toLowerCase().includes(filtro.descripcionContiene.toLowerCase()))
+                 .filter(g => filtro.etiquetasTiene == null || buscarEtiquetas(filtro.etiquetasTiene,g));
+}
+
+function agruparGastos(periodo='mes',...rest) {
+}
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
 // Si al obtener el código de una práctica se genera un conflicto, por favor incluye todo el código que aparece aquí debajo
@@ -147,4 +170,7 @@ export   {
     borrarGasto,
     calcularTotalGastos,
     calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
