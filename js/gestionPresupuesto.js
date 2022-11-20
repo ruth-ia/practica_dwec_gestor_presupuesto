@@ -105,6 +105,21 @@ class CrearGasto {
         }
     }
 
+    obtenerPeriodoAgrupacion(periodo) {
+        if (periodo == "dia")
+        {
+            return this.fecha.getFullYear() + "-" + this.fecha.getMonth() + "-" + this.fecha.getDay();
+        }
+        if (periodo == "mes") 
+        {
+            return this.fecha.getFullYear() + "-" + this.fecha.getMonth();
+        } 
+        if (periodo == "anyo")
+        {
+            return this.fecha.getFullYear();
+        }
+    }
+
 }
 
 //JS II 
