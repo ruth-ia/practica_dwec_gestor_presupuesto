@@ -60,33 +60,45 @@ class CrearGasto {
     }
 
     mostrarGastoCompleto () {
-        let etiquetas = "";
-        this.etiquetas.forEach(element => {
-            etiquetas = etiquetas + "\n- " + element;
+        let etiquetasTexto = "";
+        (this.etiquetas).forEach(element => {
+            etiquetasTexto = etiquetasTexto + "\n"+ "- " + element;
         });
+        const date = new Date(this.fecha).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: 'numeric',month: 'numeric', year: 'numeric', hour: '2-digit',minute: '2-digit', second:'2-digit' });
         return "Gasto correspondiente a " + this.descripcion + " con valor " +this.valor + " €.\n" +
-        "Fecha: " + this.fecha.toLocaleString('en-GB',{ timeZone: 'UTC' })+ "\nEtiquetas:" + etiquetas;
+        "Fecha: " + date + "\nEtiquetas:" + etiquetasTexto + '\n';
     }
 
     actualizarFecha (f) {
-        if(Date.parse(f) !== NaN && Date.parse(f) !== null)
-            this.fecha = Date.parse(f);
+        var timestamp = Date.parse(f);
+        if(isNaN(timestamp) == false)
+            this.fecha = timestamp;
     }
 
     anyadirEtiquetas (...rest) {
-        for (let i = 0; i < rest.length; i++)
-        {
-            if (!this.etiquetas.includes(rest[i]))
-                this.etiquetas.push(rest[i]);
+        if (Array.isArray(rest[0])) {
+            let tags = rest[0]
+            for (let i = 0; i < tags.length; i++)
+            {
+                if (!this.etiquetas.includes(tags[i]))
+                    this.etiquetas.push(tags[i]);
+            }
+        }
+        else {
+            for (let i = 0; i < rest.length; i++)
+            {
+                if (!this.etiquetas.includes(rest[i]))
+                    this.etiquetas.push(rest[i]);
+            }
         }
     }
 
-    borrarEtiquetas () {
-        for (let i = 0; i<arguments.length; i++)
+    borrarEtiquetas (...rest) {
+        for (let i = 0; i<rest.length; i++)
         {
-            let idx = this.etiquetas.indexOf(arguments[i]);
+            let idx = (this.etiquetas).indexOf(rest[i]);
             if (idx > -1) { 
-                array.splice(idx, 1);
+                (this.etiquetas).splice(idx, 1);
             }
         }
     }
