@@ -41,8 +41,10 @@ class CrearGasto {
         this.etiquetas = [];
         if (rest.length > 1)
         {
-            this.anyadirEtiquetas(rest.slice(1))
-        }   
+            rest.shift()
+            this.anyadirEtiquetas(rest)
+        }  
+        // console.log(JSON.stringify(this))
     }
 
     mostrarGasto () {
@@ -104,17 +106,19 @@ class CrearGasto {
     }
 
     obtenerPeriodoAgrupacion(periodo) {
+        const date = new Date(this.fecha).toISOString();
+        // console.log(date)
         if (periodo == "dia")
         {
-            return this.fecha.getFullYear() + "-" + this.fecha.getMonth() + "-" + this.fecha.getDay();
+            return date.replace(/T.*/,'');
         }
         if (periodo == "mes") 
         {
-            return this.fecha.getFullYear() + "-" + this.fecha.getMonth();
+            return date.replace(/T.*/,'').slice(0, -3);
         } 
         if (periodo == "anyo")
         {
-            return this.fecha.getFullYear();
+            return date.replace(/T.*/,'').slice(0, -6);
         }
     }
 
@@ -148,11 +152,14 @@ function calcularBalance() {
 }
 
 // JS III
-function buscarEtiquetas (etiqueta, gasto) {
+function buscarEtiquetas (etiquetas, gasto) {
     const etiquetasMin = gasto.etiquetas.map(e => {
-        return e.toLowerCase;
+        return e.toLowerCase();
     })
-    etiqueta.forEach(e => {
+    console.log("etiquetasMin",JSON.stringify(etiquetasMin))
+    console.log("etiquetas",JSON.stringify(etiquetas))
+    console.log("gasto.etiquetas",JSON.stringify(gasto.etiquetas))
+    etiquetas.forEach(e => {
         if (etiquetasMin.includes(e.toLowerCase()))
             return true;
     })
@@ -160,12 +167,18 @@ function buscarEtiquetas (etiqueta, gasto) {
 }
 
 function filtrarGastos(filtro) {
-    return gastos.filter(g => filtro.fechaDesde == null || g.fecha >= Date.parse(filtro.fechaDesde))
-                 .filter(g => filtro.fechaHasta == null || g.fecha <= Date.parse(filtro.fechaDesde))
-                 .filter(g => filtro.valorMinimo == null || g.valor > filtro.valorMinimo)
-                 .filter(g => filtro.valorMaximo == null || g.valor < filtro.valorMaximo)
-                 .filter(g => filtro.descripcionContiene == null || g.descripcion.toLowerCase().includes(filtro.descripcionContiene.toLowerCase()))
-                 .filter(g => filtro.etiquetasTiene == null || buscarEtiquetas(filtro.etiquetasTiene,g));
+    var gastosFiltrados = gastos.filter(g => filtro.fechaDesde == null || g.fecha >= Date.parse(filtro.fechaDesde))
+                                .filter(g => filtro.fechaHasta == null || g.fecha <= Date.parse(filtro.fechaHasta))
+                                .filter(g => filtro.valorMinimo == null || g.valor > filtro.valorMinimo)
+                                .filter(g => filtro.valorMaximo == null || g.valor < filtro.valorMaximo)
+                                .filter(g => filtro.descripcionContiene == null || g.descripcion.toLowerCase().includes(filtro.descripcionContiene.toLowerCase()));
+    if (filtro.etiquetasTiene != null) {
+        var tags = filtro.etiquetasTiene.map(e => {return e.toLowerCase();});
+        return gastosFiltrados.filter(g => (g.etiquetas).some(function(t) {
+            tags.includes(t);
+        }))
+    }
+    return gastosFiltrados;
 }
 
 function agruparGastos(periodo='mes',...rest) {
@@ -178,7 +191,7 @@ function agruparGastos(periodo='mes',...rest) {
         filtro.fechaHasta = rest[2];
     let gastosFiltrados = filtrarGastos(filtro);
     let gastosOrdenados = gastosFiltrados.reduce(function(acc, item) {
-        p = item.obtenerPeriodoAgrupacion(periodo)
+        var p = item.obtenerPeriodoAgrupacion(periodo)
         acc[p] = acc[p] + item.valor;
     });
     return gastosOrdenados;
