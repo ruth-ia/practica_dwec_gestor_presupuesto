@@ -3,7 +3,7 @@ import * as gestorWebJS from './gestionPresupuestoWeb';
 
 gestorJS.actualizarPresupuesto(1500);
 
-gestorWebJS.mostrarDatoEnId('presupuesto', gestorJS.mostrarPresupuesto());
+gestorWebJS.mostrarDatoEnId('div#presupuesto', gestorJS.mostrarPresupuesto());
 
 let gasto = new CrearGasto("Compra carne", 23.44, "2021-10-06", "casa", "comida" );
 gestorJS.anyadirGasto(gasto)        
